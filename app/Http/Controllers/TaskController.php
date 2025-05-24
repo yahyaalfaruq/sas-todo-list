@@ -32,14 +32,15 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'task' => 'required|string|max:255',
         ]);
 
-        $validated['user_id'] = Auth::id();
-        $validated['is_completed'] = false;
-
-        Task::create($validated);
+        Task::create([
+            'task' => $request->task,
+            'user_id' => Auth::id(),
+            'is_completed' => false,
+        ]);
 
         return redirect()->route('tasks.index')->with('success', 'Tugas berhasil ditambahkan!');
     }

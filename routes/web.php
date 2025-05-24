@@ -24,8 +24,17 @@ Route::delete('/tasks/{task}', [TaskController::class, 'destroy'])->name('tasks.
 Route::patch('/tasks/{task}/status', [TaskController::class, 'updateStatus'])->name('tasks.updateStatus')->middleware('auth');
 
 Route::get('/dashboard', function () {
-    $tasks = Task::where('user_id', Auth::id())->get();  // ambil data tasks user login
+    $tasks = Task::where('user_id', Auth::id())->get();
     return view('tasks.index', compact('tasks'));
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/dashboard', function () {
+    if (Auth::check()) {
+        $tasks = Task::where('user_id', Auth::id())->get();
+        return view('tasks.index', compact('tasks'));
+    } else {
+        return 'Belum login';
+    }
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

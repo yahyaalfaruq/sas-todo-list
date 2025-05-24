@@ -66,7 +66,7 @@
     </style>
 
     <div class="container">
-        <h2>Semua Tugas</h2>
+        <h2>Daftar Tugas</h2>
 
         <div class="top-right">
             <form action="{{ route('logout') }}" method="POST">
